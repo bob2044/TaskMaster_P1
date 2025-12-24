@@ -13,10 +13,10 @@ app.use(
       "http://localhost:3000",
       "https://task-master-p1-2ey8.vercel.app"
     ],
-    methods: ["GET", "POST", "DELETE", "PUT"],
-    credentials: true
+    methods: ["GET", "POST", "DELETE", "PUT"]
   })
 );
+
 
 app.use(bodyParser.json());
 
