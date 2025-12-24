@@ -2,15 +2,24 @@ const API_BASE = "https://taskmaster-p1.onrender.com/api";
 
 export const getTasks = async () => {
   const res = await fetch(`${API_BASE}/tasks`);
+  if (!res.ok) {
+    throw new Error("Failed to fetch tasks");
+  }
   return res.json();
 };
 
 export const addTask = async (title) => {
   const res = await fetch(`${API_BASE}/tasks`, {
     method: "POST",
-    headers: { "Content-Type": "application/json" },
+    headers: {
+      "Content-Type": "application/json"
+    },
     body: JSON.stringify({ title })
   });
+
+  if (!res.ok) {
+    throw new Error("Failed to add task");
+  }
   return res.json();
 };
 
@@ -18,7 +27,9 @@ export const deleteTask = async (id) => {
   const res = await fetch(`${API_BASE}/tasks/${id}`, {
     method: "DELETE"
   });
+
+  if (!res.ok) {
+    throw new Error("Failed to delete task");
+  }
   return res.json();
 };
-
-
