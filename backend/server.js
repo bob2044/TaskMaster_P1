@@ -9,13 +9,21 @@ const PORT = process.env.PORT || 4000;
 
 app.use(
   cors({
-    origin: [
-      "http://localhost:3000",
-      "https://task-master-p1-2ey8.vercel.app"
-    ],
-    methods: ["GET", "POST", "DELETE", "PUT"]
+    origin: function (origin, callback) {
+      if (
+        !origin ||
+        origin.includes("vercel.app") ||
+        origin === "http://localhost:3000"
+      ) {
+        callback(null, true);
+      } else {
+        callback(new Error("Not allowed by CORS"));
+      }
+    },
+    methods: ["GET", "POST", "DELETE", "PUT", "OPTIONS"]
   })
 );
+
 
 
 app.use(bodyParser.json());
