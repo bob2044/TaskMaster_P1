@@ -1,10 +1,10 @@
-import React, { useEffect, useState } from "react";
-import "./App.css";
-import { getTasks, addTask, deleteTask } from "./api";
+import React, { useEffect, useState } from 'react';
+import { getTasks, addTask, deleteTask } from './api';
+import './App.css';
 
 function App() {
   const [tasks, setTasks] = useState([]);
-  const [title, setTitle] = useState("");
+  const [title, setTitle] = useState('');
 
   useEffect(() => {
     loadTasks();
@@ -15,31 +15,37 @@ function App() {
     setTasks(data);
   };
 
-  const handleAdd = async () => {
+  const handleAddTask = async () => {
     if (!title.trim()) return;
-    await addTask({ title });
-    setTitle("");
-    loadTasks();
+
+    const newTask = await addTask(title);
+    setTasks([...tasks, newTask]); // ✅ THIS WAS MISSING
+    setTitle('');
+  };
+
+  const handleDelete = async (id) => {
+    await deleteTask(id);
+    setTasks(tasks.filter(t => t.id !== id));
   };
 
   return (
     <div className="container">
-      <h1>📝 TaskMaster</h1>
+      <h1>TaskMaster</h1>
 
       <div className="input-box">
         <input
           value={title}
           onChange={(e) => setTitle(e.target.value)}
-          placeholder="Enter a task..."
+          placeholder="Enter task"
         />
-        <button onClick={handleAdd}>Add</button>
+        <button onClick={handleAddTask}>Add Task</button>
       </div>
 
       <ul>
-        {tasks.map((task) => (
+        {tasks.map(task => (
           <li key={task.id}>
             {task.title}
-            <button onClick={() => deleteTask(task.id)}>❌</button>
+            <button onClick={() => handleDelete(task.id)}>❌</button>
           </li>
         ))}
       </ul>
@@ -48,4 +54,3 @@ function App() {
 }
 
 export default App;
-
