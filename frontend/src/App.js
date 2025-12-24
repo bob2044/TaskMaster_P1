@@ -1,25 +1,51 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useEffect, useState } from "react";
+import "./App.css";
+import { getTasks, addTask, deleteTask } from "./api";
 
 function App() {
+  const [tasks, setTasks] = useState([]);
+  const [title, setTitle] = useState("");
+
+  useEffect(() => {
+    loadTasks();
+  }, []);
+
+  const loadTasks = async () => {
+    const data = await getTasks();
+    setTasks(data);
+  };
+
+  const handleAdd = async () => {
+    if (!title.trim()) return;
+    await addTask({ title });
+    setTitle("");
+    loadTasks();
+  };
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div className="container">
+      <h1>📝 TaskMaster</h1>
+
+      <div className="input-box">
+        <input
+          value={title}
+          onChange={(e) => setTitle(e.target.value)}
+          placeholder="Enter a task..."
+        />
+        <button onClick={handleAdd}>Add</button>
+      </div>
+
+      <ul>
+        {tasks.map((task) => (
+          <li key={task.id}>
+            {task.title}
+            <button onClick={() => deleteTask(task.id)}>❌</button>
+          </li>
+        ))}
+      </ul>
     </div>
   );
 }
 
 export default App;
+
