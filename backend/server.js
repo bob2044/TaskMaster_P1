@@ -7,12 +7,20 @@ const cors = require('cors');
 const app = express();
 const PORT = process.env.PORT || 4000;
 
-app.use(cors({
-  origin: "https://task-master-p1-j2la.vercel.app"
-}));
+app.use(
+  cors({
+    origin: [
+      "http://localhost:3000",
+      "https://task-master-p1-2ey8.vercel.app"
+    ],
+    methods: ["GET", "POST", "DELETE", "PUT"],
+    credentials: true
+  })
+);
+
 app.use(bodyParser.json());
 
-const DATA_FILE = path.join(__dirname, 'tasks.json');
+const DATA_FILE = path.join(__dirname, 'tasks.json');    
 
 function readTasks() {
   try {
