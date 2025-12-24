@@ -83,7 +83,7 @@ tasks.json
 
 ## 📦 Installation & Setup (Local)
 
-### 1️⃣ Clone the repository
+ 1️⃣ Clone the repository
 ```bash
 git clone https://github.com/bob2044/TaskMaster_P1.git
 cd TaskMaster_P1
