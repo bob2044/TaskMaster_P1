@@ -14,3 +14,11 @@ export const addTask = async (title) => {
   return res.json();
 };
 
+export const deleteTask = async (id) => {
+  const res = await fetch(`${API_BASE}/tasks/${id}`, {
+    method: "DELETE"
+  });
+  return res.json();
+};
+
+
